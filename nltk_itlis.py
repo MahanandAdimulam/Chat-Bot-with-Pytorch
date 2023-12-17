@@ -12,10 +12,10 @@ def stem(word):
 def bag_of_words(tokenized_sen, all_words):
     pass
 
-a = "How long does shippin take?"
-print(a)
-a = tokenize(a)
-print(a)
-words = ["organize", "organizes","organizing"]
-stemmed_words = [stem(w) for w in words]
-print(stemmed_words)
+# a = "How long does shippin take?"
+# print(a)
+# a = tokenize(a)
+# print(a)
+# words = ["organize", "organizes","organizing"]
+# stemmed_words = [stem(w) for w in words]
+# print(stemmed_words)
