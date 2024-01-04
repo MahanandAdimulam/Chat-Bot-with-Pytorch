@@ -25,8 +25,8 @@ ignore_words = ["?", "!", ".", ","]
 all_words = [stem(w) for w in all_words if w not in ignore_words]
 all_words = sorted(set(all_words))
 tags = sorted(set(tags))
-print(tags)
-print(all_words)
+print('tags ',tags)
+print('all words ',all_words)
 
 X_train = []
 y_train = []
@@ -56,8 +56,35 @@ batch_size = 8
 input_size = len(X_train[0])
 hidden_size = 8
 output_size = len(tags)
+learning_rate = 0.001
+num_epochs = 1000
 
 dataset = ChatDataset()
-train_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=2)
+train_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=0)
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(device)
 model = NeuralNet(input_size, hidden_size, output_size)
+
+#loss and optimixer
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+for epoch in range(num_epochs):
+    for (words, labels) in train_loader:
+        words = words.to(device)
+        labels = labels.to(device, dtype=torch.int64)
+
+        #forward
+        outputs = model(words)
+        loss = criterion(outputs, labels)
+
+        #backward and optimizer step
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+    if (epoch+1) % 100 == 0:
+        print(f'epoch {epoch+1}/{num_epochs}, loss={loss.item():.4f}')
+
+print(f'Final loss, {loss.item():.4f}')
