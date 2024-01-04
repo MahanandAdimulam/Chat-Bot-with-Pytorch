@@ -1,5 +1,5 @@
 import json
-from nltk_itlis import tokenize, stem, bag_of_words
+from nltk_utils import tokenize, stem, bag_of_words
 import numpy as np
 import torch
 import torch.nn as nn
